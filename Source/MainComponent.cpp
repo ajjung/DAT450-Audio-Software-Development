@@ -69,31 +69,6 @@ public:
 	}
 
 private:
-	static String getMidiMessageDescription(const MidiMessage& m)
-	{
-		if (m.isNoteOn())           return "Note on " + MidiMessage::getMidiNoteName(m.getNoteNumber(), true, true, 3);
-		if (m.isNoteOff())          return "Note off " + MidiMessage::getMidiNoteName(m.getNoteNumber(), true, true, 3);
-		if (m.isProgramChange())    return "Program change " + String(m.getProgramChangeNumber());
-		if (m.isPitchWheel())       return "Pitch wheel " + String(m.getPitchWheelValue());
-		if (m.isAftertouch())       return "After touch " + MidiMessage::getMidiNoteName(m.getNoteNumber(), true, true, 3) + ": " + String(m.getAfterTouchValue());
-		if (m.isChannelPressure())  return "Channel pressure " + String(m.getChannelPressureValue());
-		if (m.isAllNotesOff())      return "All notes off";
-		if (m.isAllSoundOff())      return "All sound off";
-		if (m.isMetaEvent())        return "Meta event";
-
-		if (m.isController())
-		{
-			String name(MidiMessage::getControllerName(m.getControllerNumber()));
-
-			if (name.isEmpty())
-				name = "[" + String(m.getControllerNumber()) + "]";
-
-			return "Controller " + name + ": " + String(m.getControllerValue());
-		}
-
-		return String::toHexString(m.getRawData(), m.getRawDataSize());
-	}
-
 	/** Starts listening to a MIDI input device, enabling it if necessary. */
 	void setMidiInput(int index)
 	{
