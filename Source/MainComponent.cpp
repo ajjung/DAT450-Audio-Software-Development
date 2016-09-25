@@ -16,7 +16,7 @@
     This component lives inside our window, and this is where you should put all
     your controls and content.
 */
-class MainContentComponent : public Component,
+class MainContentComponent : public AudioAppComponent,
 	private ComboBox::Listener,
 	private MidiInputCallback
 {
@@ -49,6 +49,7 @@ public:
 		if (midiInputList.getSelectedId() == 0)
 			setMidiInput(0);
 
+		setAudioChannels(2, 2);
 		setSize(600, 400);
 	}
 
@@ -56,6 +57,37 @@ public:
 	{
 		deviceManager.removeMidiInputCallback(MidiInput::getDevices()[midiInputList.getSelectedItemIndex()], this);
 		midiInputList.removeListener(this);
+		shutdownAudio();
+	}
+
+	void prepareToPlay(int samplesPerBlockExpected, double sampleRate) override
+	{
+		// This function will be called when the audio device is started, or when
+		// its settings (i.e. sample rate, block size, etc) are changed.
+
+		// You can use this function to initialise any resources you might need,
+		// but be careful - it will be called on the audio thread, not the GUI thread.
+
+		// For more details, see the help for AudioProcessor::prepareToPlay()
+	}
+
+	void getNextAudioBlock(const AudioSourceChannelInfo& bufferToFill) override
+	{
+		// Your audio-processing code goes here!
+
+		// For more details, see the help for AudioProcessor::getNextAudioBlock()
+
+		// Right now we are not producing any data, in which case we need to clear the buffer
+		// (to prevent the output of random noise)
+		bufferToFill.clearActiveBufferRegion();
+	}
+
+	void releaseResources() override
+	{
+		// This will be called when the audio device stops, or when it is being
+		// restarted due to a setting change.
+
+		// For more details, see the help for AudioProcessor::releaseResources()
 	}
 
 	void paint(Graphics& g) override
@@ -67,6 +99,7 @@ public:
 	{
 		
 	}
+
 
 private:
 	/** Starts listening to a MIDI input device, enabling it if necessary. */
