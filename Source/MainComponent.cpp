@@ -111,16 +111,12 @@ public:
 
 	void resized() override
 	{
-		const int halfWidth = getWidth() / 2;
+		midiInputList.setBounds(200, 10, 200, 20);
 
-		Rectangle<int> buttonsBounds(getLocalBounds().withWidth(halfWidth).reduced(10));
-
-		sineButton.setBounds(buttonsBounds.getX(), 10, buttonsBounds.getWidth(), 20);
-		squareButton.setBounds(buttonsBounds.getX(), 40, buttonsBounds.getWidth(), 20);
-		triangleButton.setBounds(buttonsBounds.getX(), 70, buttonsBounds.getWidth(), 20);
-		sawtoothButton.setBounds(buttonsBounds.getX(), 100, buttonsBounds.getWidth(), 20);
-
-		midiInputList.setBounds(getLocalBounds().withWidth(halfWidth).withX(halfWidth).reduced(10));
+		sineButton.setBounds(10, 40, 200, 20);
+		squareButton.setBounds(10, 70, 200, 20);
+		triangleButton.setBounds(10, 100, 200, 20);
+		sawtoothButton.setBounds(10, 130, 200, 20);
 	}
 
 private:
