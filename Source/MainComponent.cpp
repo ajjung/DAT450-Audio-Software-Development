@@ -160,10 +160,10 @@ private:
 	AudioDeviceManager deviceManager;           // [1]
 	ComboBox midiInputList;                     // [2]
 	Label midiInputListLabel;
-	TextButton sineButton;
-	TextButton squareButton;
-	TextButton triangleButton;
-	TextButton sawtoothButton;
+	ToggleButton sineButton;
+	ToggleButton squareButton;
+	ToggleButton triangleButton;
+	ToggleButton sawtoothButton;
 	int lastInputIndex;                         // [3]
 	bool isAddingFromMidiInput;                 // [4]
 	double sampleRate;
