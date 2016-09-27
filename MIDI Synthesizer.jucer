@@ -5,9 +5,11 @@
               jucerVersion="4.2.3">
   <MAINGROUP id="wyYD07" name="MIDI Synthesizer">
     <GROUP id="{F766F7D3-7080-2EF4-D88E-B7413CD1A2E8}" name="Source">
+      <FILE id="dZLEoU" name="Main.cpp" compile="1" resource="0" file="Source/Main.cpp"/>
       <FILE id="FiAmPd" name="MainComponent.cpp" compile="1" resource="0"
             file="Source/MainComponent.cpp"/>
-      <FILE id="dZLEoU" name="Main.cpp" compile="1" resource="0" file="Source/Main.cpp"/>
+      <FILE id="ZMe3X1" name="Waveform.cpp" compile="1" resource="0" file="Source/Waveform.cpp"/>
+      <FILE id="eq595E" name="Waveform.h" compile="0" resource="0" file="Source/Waveform.h"/>
     </GROUP>
   </MAINGROUP>
   <EXPORTFORMATS>

@@ -10,7 +10,7 @@
 #define MAINCOMPONENT_H_INCLUDED
 
 #include "../JuceLibraryCode/JuceHeader.h"
-
+#include "Waveform.h"
 //==============================================================================
 /*
     This component lives inside our window, and this is where you should put all
@@ -18,7 +18,6 @@
 */
 class MainContentComponent : public AudioAppComponent,
 	private ComboBox::Listener,
-	private Button::Listener,
 	private MidiInputCallback
 {
 public:
@@ -26,25 +25,20 @@ public:
 		:lastInputIndex(0),
 		isAddingFromMidiInput(false)
 	{
-		addAndMakeVisible(sineButton);
-		sineButton.setButtonText("Sine Wave");
-		sineButton.addListener(this);
-
-		addAndMakeVisible(squareButton);
-		squareButton.setButtonText("Square Wave");
-		squareButton.addListener(this);
-
-		addAndMakeVisible(triangleButton);
-		triangleButton.setButtonText("Triangle Wave");
-		triangleButton.addListener(this);
-
-		addAndMakeVisible(sawtoothButton);
-		sawtoothButton.setButtonText("Sawtooth Wave");
-		sawtoothButton.addListener(this);
-
 		addAndMakeVisible(midiInputListLabel);
 		midiInputListLabel.setText("MIDI Input:", dontSendNotification);
 		midiInputListLabel.attachToComponent(&midiInputList, true);
+
+		addAndMakeVisible(waveformListLabel);
+		waveformListLabel.setText("Waveform:", dontSendNotification);
+		waveformListLabel.attachToComponent(&waveformList, true);
+
+		addAndMakeVisible(waveformList);
+		waveformList.addItem("Sine Wave", 1);
+		waveformList.addItem("Square Wave", 2);
+		waveformList.addItem("Triangle Wave", 3);
+		waveformList.addItem("Sawtooth Wave", 4);
+		waveformList.setSelectedId(1);
 
 		addAndMakeVisible(midiInputList);
 		midiInputList.setTextWhenNoChoicesAvailable("No MIDI Inputs Enabled");
@@ -112,11 +106,7 @@ public:
 	void resized() override
 	{
 		midiInputList.setBounds(200, 10, 200, 20);
-
-		sineButton.setBounds(10, 40, 200, 20);
-		squareButton.setBounds(10, 70, 200, 20);
-		triangleButton.setBounds(10, 100, 200, 20);
-		sawtoothButton.setBounds(10, 130, 200, 20);
+		waveformList.setBounds(10, 40, 200, 20);
 	}
 
 private:
@@ -143,11 +133,12 @@ private:
 	{
 		if (box == &midiInputList)
 			setMidiInput(midiInputList.getSelectedItemIndex());
-	}
 
-	void buttonClicked(Button* button) override
-	{
-		
+		if (box == &waveformList)
+		{
+
+		}
+
 	}
 
 	// These methods handle callbacks from the midi device + on-screen keyboard..
@@ -160,10 +151,8 @@ private:
 	AudioDeviceManager deviceManager;           // [1]
 	ComboBox midiInputList;                     // [2]
 	Label midiInputListLabel;
-	ToggleButton sineButton;
-	ToggleButton squareButton;
-	ToggleButton triangleButton;
-	ToggleButton sawtoothButton;
+	ComboBox waveformList;
+	Label waveformListLabel;
 	int lastInputIndex;                         // [3]
 	bool isAddingFromMidiInput;                 // [4]
 	double sampleRate;
