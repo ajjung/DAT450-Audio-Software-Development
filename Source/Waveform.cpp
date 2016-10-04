@@ -1,5 +1,6 @@
 #include "Waveform.h"
 
+<<<<<<< HEAD
 void WaveformF::setSampleRate(double samplerate)
 {
 	newSampleRate = samplerate;
@@ -82,3 +83,14 @@ void releaseResources() override
 	// For more details, see the help for AudioProcessor::releaseResources()
 }
 
+=======
+Waveform::Waveform()
+{
+
+}
+
+void Waveform::setSampleRate(double samplerate)
+{
+	newSampleRate = samplerate;
+}
+>>>>>>> origin/master

@@ -367,9 +367,18 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Source\Main.cpp">
+<<<<<<< HEAD
       <Filter>MIDI Synthesizer\Source</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Source\MainComponent.cpp">
+=======
+      <Filter>MIDI Synthesizer\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\MainComponent.cpp">
+      <Filter>MIDI Synthesizer\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Waveform.cpp">
+>>>>>>> origin/master
       <Filter>MIDI Synthesizer\Source</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\..\..\..\..\Program Files (x86)\JUCE\modules\juce_audio_basics\buffers\juce_AudioDataConverters.cpp">

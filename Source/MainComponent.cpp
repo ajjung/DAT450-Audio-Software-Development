@@ -26,8 +26,11 @@ public:
 		:lastInputIndex(0),
 		isAddingFromMidiInput(false)
 	{
+<<<<<<< HEAD
        // double currentSampleRate, currentAngle, angleDelta;
         
+=======
+>>>>>>> origin/master
 		addAndMakeVisible(midiInputListLabel);
 		midiInputListLabel.setText("MIDI Input:", dontSendNotification);
 		midiInputListLabel.attachToComponent(&midiInputList, true);
@@ -111,9 +114,13 @@ private:
 
 		if (box == &waveformList)
 		{
+<<<<<<< HEAD
             if(waveformList.getSelectedId() == 1){
                 
             }
+=======
+
+>>>>>>> origin/master
 		}
 
 	}
@@ -130,12 +137,16 @@ private:
 	ComboBox midiInputList;                     // [2]
 	Label midiInputListLabel;
 	ComboBox waveformList;
+<<<<<<< HEAD
 	Label waveformListLabel;    
     
     MidiMessage midi;
     MidiKeyboardState keyboardState;
 
     
+=======
+	Label waveformListLabel;
+>>>>>>> origin/master
 	int lastInputIndex;                         // [3]
 	bool isAddingFromMidiInput;                 // [4]
 	//==============================================================================

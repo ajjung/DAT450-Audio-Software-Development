@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 #ifndef SYNTH_H_INCLUDED
 #define SYNTH_H_INCLUDED
 
@@ -138,3 +139,17 @@ public:
 };
 
 #endif
+=======
+class Waveform
+{
+	Waveform();
+	void setSampleRate(double samplerate);
+	void sineWave();
+	void squareWave();
+	void triangleWave();
+	void sawtoothWave();
+
+private:
+	double newSampleRate;
+};
+>>>>>>> origin/master
