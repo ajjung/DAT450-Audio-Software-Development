@@ -2,14 +2,15 @@
 
 <JUCERPROJECT id="lBaxxl" name="MIDI Synthesizer" projectType="guiapp" version="1.0.0"
               bundleIdentifier="com.yourcompany.MIDISynthesizer" includeBinaryInAppConfig="1"
-              jucerVersion="4.2.3">
+              jucerVersion="4.2.4">
   <MAINGROUP id="wyYD07" name="MIDI Synthesizer">
     <GROUP id="{F766F7D3-7080-2EF4-D88E-B7413CD1A2E8}" name="Source">
       <FILE id="dZLEoU" name="Main.cpp" compile="1" resource="0" file="Source/Main.cpp"/>
-      <FILE id="FiAmPd" name="MainComponent.cpp" compile="1" resource="0"
-            file="Source/MainComponent.cpp"/>
-      <FILE id="ZMe3X1" name="Waveform.cpp" compile="1" resource="0" file="Source/Waveform.cpp"/>
-      <FILE id="eq595E" name="Waveform.h" compile="0" resource="0" file="Source/Waveform.h"/>
+      <FILE id="TBKK3T" name="MainComponent.h" compile="0" resource="0" file="Source/MainComponent.h"/>
+      <FILE id="Tyz2dg" name="SawtoothWave.h" compile="0" resource="0" file="Source/SawtoothWave.h"/>
+      <FILE id="NXiwkw" name="SineWave.h" compile="0" resource="0" file="Source/SineWave.h"/>
+      <FILE id="ssNoqB" name="SquareWave.h" compile="0" resource="0" file="Source/SquareWave.h"/>
+      <FILE id="bwuEwZ" name="TriangleWave.h" compile="0" resource="0" file="Source/TriangleWave.h"/>
     </GROUP>
   </MAINGROUP>
   <EXPORTFORMATS>
@@ -59,6 +60,30 @@
         <MODULEPATH id="juce_audio_utils" path="../../../../../../Program Files (x86)/JUCE/modules"/>
       </MODULEPATHS>
     </VS2013>
+    <VS2015 targetFolder="Builds/VisualStudio2015">
+      <CONFIGURATIONS>
+        <CONFIGURATION name="Debug" winWarningLevel="4" generateManifest="1" winArchitecture="32-bit"
+                       isDebug="1" optimisation="1" targetName="MIDI Synthesizer"/>
+        <CONFIGURATION name="Release" winWarningLevel="4" generateManifest="1" winArchitecture="32-bit"
+                       isDebug="0" optimisation="3" targetName="MIDI Synthesizer"/>
+      </CONFIGURATIONS>
+      <MODULEPATHS>
+        <MODULEPATH id="juce_video" path="../../../../../../Program Files (x86)/JUCE/modules"/>
+        <MODULEPATH id="juce_opengl" path="../../../../../../Program Files (x86)/JUCE/modules"/>
+        <MODULEPATH id="juce_gui_extra" path="../../../../../../Program Files (x86)/JUCE/modules"/>
+        <MODULEPATH id="juce_gui_basics" path="../../../../../../Program Files (x86)/JUCE/modules"/>
+        <MODULEPATH id="juce_graphics" path="../../../../../../Program Files (x86)/JUCE/modules"/>
+        <MODULEPATH id="juce_events" path="../../../../../../Program Files (x86)/JUCE/modules"/>
+        <MODULEPATH id="juce_data_structures" path="../../../../../../Program Files (x86)/JUCE/modules"/>
+        <MODULEPATH id="juce_cryptography" path="../../../../../../Program Files (x86)/JUCE/modules"/>
+        <MODULEPATH id="juce_core" path="../../../../../../Program Files (x86)/JUCE/modules"/>
+        <MODULEPATH id="juce_audio_utils" path="../../../../../../Program Files (x86)/JUCE/modules"/>
+        <MODULEPATH id="juce_audio_processors" path="../../../../../../Program Files (x86)/JUCE/modules"/>
+        <MODULEPATH id="juce_audio_formats" path="../../../../../../Program Files (x86)/JUCE/modules"/>
+        <MODULEPATH id="juce_audio_devices" path="../../../../../../Program Files (x86)/JUCE/modules"/>
+        <MODULEPATH id="juce_audio_basics" path="../../../../../../Program Files (x86)/JUCE/modules"/>
+      </MODULEPATHS>
+    </VS2015>
   </EXPORTFORMATS>
   <MODULES>
     <MODULE id="juce_audio_basics" showAllCode="1" useLocalCopy="0"/>
