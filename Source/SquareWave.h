@@ -139,7 +139,7 @@ private:
     //==============================================================================
     float getNextSample() noexcept
     {
-        const double levelDb = (level.getNextValue() - 1.0) * maxLevelDb;
+        /*const double levelDb = (level.getNextValue() - 1.0) * maxLevelDb;
         const double amplitude = std::pow (10.0f, 0.05f * levelDb) * maxLevel;
         
         // timbre is used to blend between a sine and a square.
@@ -154,7 +154,7 @@ private:
         phaseDelta = 2.0 * double_Pi * cyclesPerSample;
         phase = std::fmod (phase + phaseDelta, 2.0 * double_Pi);
         
-        return nextSample;
+        return nextSample;*/
     }
     
     //==============================================================================
