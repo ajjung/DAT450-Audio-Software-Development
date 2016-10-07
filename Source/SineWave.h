@@ -164,8 +164,8 @@ private:
     double phase, phaseDelta, tailOff;
     
     // some useful constants
-    const double maxLevel = 0.05f;
-    const double maxLevelDb = 31.0f;
+    const double maxLevel = 1.0f;
+    const double maxLevelDb = 40.0f;
     const double smoothingLengthInSeconds = 0.01;
 };
 

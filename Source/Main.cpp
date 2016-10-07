@@ -17,7 +17,6 @@ struct MPETestClasses
 #include "TriangleWave.h"
 #include "SawtoothWave.h"
 #include "MainComponent.h"
-#include "Visualiser.h"
 };
 
 //==============================================================================

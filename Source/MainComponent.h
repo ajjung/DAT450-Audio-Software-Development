@@ -10,7 +10,6 @@
 
 #ifndef MAINCOMPONENT_H_INCLUDED
 #define MAINCOMPONENT_H_INCLUDED
-#include "Visualiser.h"
 #include "SineWave.h"
 #include "SawtoothWave.h"
 #include "TriangleWave.h"
@@ -19,14 +18,16 @@
 class MainComponent : public Component,
 	private AudioIODeviceCallback,  // [1]
 	private MidiInputCallback,       // [2]
-	private ComboBox::Listener
+	private ComboBox::Listener,
+	private MidiKeyboardStateListener
 {
 public:
 	//==============================================================================
 	MainComponent()
-		: audioSetupComp(audioDeviceManager, 0, 0, 0, 256, true, true, true, false)
+		: audioSetupComp(audioDeviceManager, 0, 0, 0, 256, true, true, true, false),
+		keyboardComponent(keyboardState, MidiKeyboardComponent::horizontalKeyboard)
 	{
-		setSize(650, 560);
+		setSize(1220, 900);
 
 		audioDeviceManager.initialise(0, 2, nullptr, true, String(), nullptr);
 		audioDeviceManager.addMidiInputCallback(String(), this); // [6]
@@ -35,9 +36,10 @@ public:
 		addAndMakeVisible(audioSetupComp);
 		addAndMakeVisible(waveformList);
 		addAndMakeVisible(waveformListLabel);
+		addAndMakeVisible(keyboardComponent);
 
-		visualiserInstrument.addListener(&visualiserComp);
 		waveformList.addListener(this);
+		keyboardState.addListener(this);
 
 		waveformListLabel.setText("Wavefrom:", dontSendNotification);
 		waveformListLabel.attachToComponent(&waveformList, true);
@@ -45,7 +47,7 @@ public:
 		waveformList.addItem("Square Wave", 2);
 		waveformList.addItem("Triangle Wave", 3);
 		waveformList.addItem("Sawtooth Wave", 4);
-		waveformList.setSelectedItemIndex(1);
+		waveformList.setSelectedItemIndex(0);
 
 		synth.enableLegacyMode(24);
 		synth.setVoiceStealingEnabled(false);
@@ -59,11 +61,17 @@ public:
 	}
 
 	//==============================================================================
+	void paint(Graphics& g) override
+	{
+		g.fillAll(Colours::grey);
+	}
+
 	void resized() override
 	{
 		Rectangle<int> r(getLocalBounds());
 		audioSetupComp.setBounds(r);
 		waveformList.setBounds(10, 350, 200, 20);
+		keyboardComponent.setBounds(10, 790, 1200, 100);
 	}
 
 	//==============================================================================
@@ -104,7 +112,7 @@ public:
 			if (waveformList.getSelectedItemIndex() == 1)
 			{
 				synth.clearVoices();
-				for (int i = 0; i < 15; ++i)
+				for (int i = 0; i < 50; ++i)
 				{
 					synth.addVoice(new SineWave);
 				}
@@ -113,7 +121,7 @@ public:
 			if (waveformList.getSelectedItemIndex() == 2)
 			{
 				synth.clearVoices();
-				for (int i = 0; i < 15; ++i)
+				for (int i = 0; i < 50; ++i)
 				{
 					synth.addVoice(new SquareWave);
 				}
@@ -122,7 +130,7 @@ public:
 			if (waveformList.getSelectedItemIndex() == 3)
 			{
 				synth.clearVoices();
-				for (int i = 0; i < 15; ++i)
+				for (int i = 0; i < 50; ++i)
 				{
 					synth.addVoice(new TriangleWave);
 				}
@@ -131,12 +139,20 @@ public:
 			if (waveformList.getSelectedItemIndex() == 4)
 			{
 				synth.clearVoices();
-				for (int i = 0; i < 15; ++i)
+				for (int i = 0; i < 50; ++i)
 				{
 					synth.addVoice(new SawtoothWave);
 				}
 			}
 		}
+	}
+
+	void handleNoteOn(MidiKeyboardState*, int midiChannel, int midiNoteNumber, float velocity) override
+	{
+	}
+
+	void handleNoteOff(MidiKeyboardState*, int midiChannel, int midiNoteNumber, float velocity) override
+	{
 	}
 
 private:
@@ -146,6 +162,8 @@ private:
 	{
 		visualiserInstrument.processNextMidiEvent(message);
 		midiCollector.addMessageToQueue(message);
+		const ScopedValueSetter<bool> scopedInputFlag(isAddingFromMidiInput, true);
+		keyboardState.processNextMidiEvent(message);
 	}
 
 	//==============================================================================
@@ -155,7 +173,9 @@ private:
 	ComboBox waveformList;
 	Label waveformListLabel;
 
-	Visualiser visualiserComp;
+	MidiKeyboardState keyboardState;
+	MidiKeyboardComponent keyboardComponent;
+	bool isAddingFromMidiInput;
 
 	MPEInstrument visualiserInstrument;
 	MPESynthesiser synth;

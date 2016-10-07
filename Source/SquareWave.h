@@ -143,7 +143,7 @@ private:
         const double amplitude = std::pow (10.0f, 0.05f * levelDb) * maxLevel;
         
         // timbre is used to blend between a sine and a square.
-        const double f1 = std::sin (phase);
+        const double f1 = std::cos (phase);
         const double f2 = std::copysign (1.0, f1);
         const double a2 = timbre.getNextValue();
         const double a1 = 1.0 - a2;
@@ -162,8 +162,8 @@ private:
     double phase, phaseDelta, tailOff;
     
     // some useful constants
-    const double maxLevel = 0.05f;
-    const double maxLevelDb = 31.0f;
+    const double maxLevel = 1.0f;
+    const double maxLevelDb = 40.0f;
     const double smoothingLengthInSeconds = 0.01;
 };
 

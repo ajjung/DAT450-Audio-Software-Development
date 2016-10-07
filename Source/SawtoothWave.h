@@ -151,7 +151,7 @@ private:
         const float nextSample = float (amplitude * ((a1 * f1) + (a2 * f2)));
         
         const double cyclesPerSample = frequency.getNextValue() / currentSampleRate;
-        phaseDelta = 2.0 * double_Pi * cyclesPerSample;
+        phaseDelta = 4.0 * double_Pi * cyclesPerSample;
         phase = std::fmod (phase + phaseDelta, 2.0 * double_Pi);
         
         return nextSample;
@@ -162,8 +162,8 @@ private:
     double phase, phaseDelta, tailOff;
     
     // some useful constants
-    const double maxLevel = 0.05f;
-    const double maxLevelDb = 31.0f;
+    const double maxLevel = 1.0f;
+    const double maxLevelDb = 40.0f;
     const double smoothingLengthInSeconds = 0.01;
 };
 
