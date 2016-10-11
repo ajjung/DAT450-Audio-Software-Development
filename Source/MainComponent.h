@@ -27,7 +27,11 @@ public:
 		: audioSetupComp(audioDeviceManager, 0, 0, 0, 256, true, true, true, false),
 		keyboardComponent(keyboardState, MidiKeyboardComponent::horizontalKeyboard)
 	{
+<<<<<<< HEAD
 		setSize(1220, 600);
+=======
+		setSize(1220, 900);
+>>>>>>> origin/master
 
 		audioDeviceManager.initialise(0, 2, nullptr, true, String(), nullptr);
 		audioDeviceManager.addMidiInputCallback(String(), this); // [6]
@@ -71,7 +75,11 @@ public:
 		Rectangle<int> r(getLocalBounds());
 		audioSetupComp.setBounds(r);
 		waveformList.setBounds(10, 350, 200, 20);
+<<<<<<< HEAD
 		keyboardComponent.setBounds(10, 515, 1200, 75);
+=======
+		keyboardComponent.setBounds(10, 790, 1200, 100);
+>>>>>>> origin/master
 	}
 
 	//==============================================================================
