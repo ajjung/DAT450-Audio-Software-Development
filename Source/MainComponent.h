@@ -41,13 +41,18 @@ public:
 		waveformList.addListener(this);
 		keyboardState.addListener(this);
 
+		for (int i = 0; i < 15; ++i)
+		{
+			synth.addVoice(new SineWave);
+		}
+
 		waveformListLabel.setText("Wavefrom:", dontSendNotification);
 		waveformListLabel.attachToComponent(&waveformList, true);
 		waveformList.addItem("Sine Wave", 1);
 		waveformList.addItem("Square Wave", 2);
 		waveformList.addItem("Triangle Wave", 3);
 		waveformList.addItem("Sawtooth Wave", 4);
-		waveformList.setSelectedItemIndex(0);
+		waveformList.setSelectedId(1);
 
 		synth.enableLegacyMode(24);
 		synth.setVoiceStealingEnabled(false);
@@ -71,7 +76,7 @@ public:
 		Rectangle<int> r(getLocalBounds());
 		audioSetupComp.setBounds(r);
 		waveformList.setBounds(10, 350, 200, 20);
-		keyboardComponent.setBounds(10, 515, 1200, 75);
+		keyboardComponent.setBounds(r.removeFromBottom(75));
 	}
 
 	//==============================================================================
@@ -112,7 +117,7 @@ public:
 			if (waveformList.getSelectedItemIndex() == 1)
 			{
 				synth.clearVoices();
-				for (int i = 0; i < 50; ++i)
+				for (int i = 0; i < 15; ++i)
 				{
 					synth.addVoice(new SineWave);
 				}
@@ -121,7 +126,7 @@ public:
 			if (waveformList.getSelectedItemIndex() == 2)
 			{
 				synth.clearVoices();
-				for (int i = 0; i < 50; ++i)
+				for (int i = 0; i < 15; ++i)
 				{
 					synth.addVoice(new SquareWave);
 				}
@@ -130,7 +135,7 @@ public:
 			if (waveformList.getSelectedItemIndex() == 3)
 			{
 				synth.clearVoices();
-				for (int i = 0; i < 50; ++i)
+				for (int i = 0; i < 15; ++i)
 				{
 					synth.addVoice(new TriangleWave);
 				}
@@ -139,7 +144,7 @@ public:
 			if (waveformList.getSelectedItemIndex() == 4)
 			{
 				synth.clearVoices();
-				for (int i = 0; i < 50; ++i)
+				for (int i = 0; i < 15; ++i)
 				{
 					synth.addVoice(new SawtoothWave);
 				}
