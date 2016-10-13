@@ -114,7 +114,7 @@ public:
 	{
 		if (box == &waveformList)
 		{
-			if (waveformList.getSelectedItemIndex() == 1)
+			if (waveformList.getSelectedId() == 1)
 			{
 				synth.clearVoices();
 				for (int i = 0; i < 15; ++i)
@@ -123,7 +123,7 @@ public:
 				}
 			}
 
-			if (waveformList.getSelectedItemIndex() == 2)
+			if (waveformList.getSelectedId() == 2)
 			{
 				synth.clearVoices();
 				for (int i = 0; i < 15; ++i)
@@ -132,7 +132,7 @@ public:
 				}
 			}
 
-			if (waveformList.getSelectedItemIndex() == 3)
+			if (waveformList.getSelectedId() == 3)
 			{
 				synth.clearVoices();
 				for (int i = 0; i < 15; ++i)
@@ -141,7 +141,7 @@ public:
 				}
 			}
 
-			if (waveformList.getSelectedItemIndex() == 4)
+			if (waveformList.getSelectedId() == 4)
 			{
 				synth.clearVoices();
 				for (int i = 0; i < 15; ++i)
