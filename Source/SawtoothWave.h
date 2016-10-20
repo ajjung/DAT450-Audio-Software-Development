@@ -146,12 +146,12 @@ private:
         const double f1 = std::sin (phase);
         const double f2 = std::copysign (1.0, f1);
         const double a2 = timbre.getNextValue();
-        const double a1 = 1.0 - a2;
+        const double a1 = 2.0 - a2;
         
         const float nextSample = float (amplitude * ((a1 * f1) + (a2 * f2)));
         
         const double cyclesPerSample = frequency.getNextValue() / currentSampleRate;
-        phaseDelta = 4.0 * double_Pi * cyclesPerSample;
+        phaseDelta = 2.0 * double_Pi * cyclesPerSample;
         phase = std::fmod (phase + phaseDelta, 2.0 * double_Pi);
         
         return nextSample;

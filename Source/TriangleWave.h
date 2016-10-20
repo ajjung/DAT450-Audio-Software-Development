@@ -148,10 +148,10 @@ private:
         const double a2 = timbre.getNextValue();
         const double a1 = 1.0 - a2;
         
-        const float nextSample = float (amplitude * ((a1 * f1) + (a2 * f2)));
+        const float nextSample = float (amplitude * ((a1/ f1)*2));
         
         const double cyclesPerSample = frequency.getNextValue() / currentSampleRate;
-        phaseDelta = 5.0 * double_Pi * cyclesPerSample;
+        phaseDelta = 2.0 * double_Pi * cyclesPerSample;
         phase = std::fmod (phase + phaseDelta, 2.0 * double_Pi);
         
         return nextSample;
