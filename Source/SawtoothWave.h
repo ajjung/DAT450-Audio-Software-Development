@@ -146,7 +146,7 @@ private:
 		const float nextSample = (float (-2 * amplitude) / double_Pi) * atan(1/tan((phase)));
         
         const double cyclesPerSample = frequency.getNextValue() / currentSampleRate;
-        phaseDelta = 2.0 * double_Pi * cyclesPerSample;
+        phaseDelta = double_Pi * cyclesPerSample;
         phase = std::fmod (phase + phaseDelta, double_Pi);   
 
 		return nextSample;
