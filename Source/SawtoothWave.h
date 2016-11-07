@@ -100,15 +100,15 @@ public:
         {
             if (tailOff > 0.0)
             {
-                while (--numSamples >= 0)
+				for (int i = 0; i < numSamples; ++i)
                 {
-                    const float currentSample = getNextSample() * (float) tailOff;
+					const float currentSample = (float)(numSamples / 2 - i) / (numSamples / 2) * (float)tailOff;
                     
-                    for (int i = outputBuffer.getNumChannels(); --i >= 0;)
-                        outputBuffer.addSample (i, startSample, currentSample);
-                        
-                        ++startSample;
-                    
+                    for (int j = outputBuffer.getNumChannels(); --j >= 0;)
+                        outputBuffer.addSample (j, startSample, currentSample);
+						
+						++startSample;
+
                     tailOff *= 0.99;
                     
                     if (tailOff <= 0.005)
@@ -122,12 +122,12 @@ public:
             }
             else
             {
-                while (--numSamples >= 0)
-                {
-                    const float currentSample = getNextSample();
+				for (int i = 0; i < numSamples; ++i)
+				{
+					const float currentSample = (float)(numSamples / 2 - i) / (numSamples / 2);
                     
-                    for (int i = outputBuffer.getNumChannels(); --i >= 0;)
-                        outputBuffer.addSample (i, startSample, currentSample);
+                    for (int j = outputBuffer.getNumChannels(); --j >= 0;)
+                        outputBuffer.addSample (j, startSample, currentSample);
                         
                         ++startSample;
                 }

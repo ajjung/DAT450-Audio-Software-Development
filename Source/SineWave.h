@@ -98,43 +98,43 @@ public:
                           int startSample,
                           int numSamples) override
     {
-        if (phaseDelta != 0.0)
-        {
-            if (tailOff > 0.0)
-            {
-                while (--numSamples >= 0)
-                {
-                    const float currentSample = getNextSample() * (float) tailOff;
-                    
-                    for (int i = outputBuffer.getNumChannels(); --i >= 0;)
-                        outputBuffer.addSample (i, startSample, currentSample);
-                    
-                    ++startSample;
-                    
-                    tailOff *= 0.99;
-                    
-                    if (tailOff <= 0.005)
-                    {
-                        clearCurrentNote();
-                        
-                        phaseDelta = 0.0;
-                        break;
-                    }
-                }
-            }
-            else
-            {
-                while (--numSamples >= 0)
-                {
-                    const float currentSample = getNextSample();
-                    
-                    for (int i = outputBuffer.getNumChannels(); --i >= 0;)
-                        outputBuffer.addSample (i, startSample, currentSample);
-                    
-                    ++startSample;
-                }
-            }
-        }
+		if (phaseDelta != 0.0)
+		{
+			if (tailOff > 0.0)
+			{
+				for (int i = 0; i < numSamples; ++i)
+				{
+					const float currentSample = (float)sin((i * 2 * double_Pi) / numSamples) * (float)tailOff;
+
+					for (int j = outputBuffer.getNumChannels(); --j >= 0;)
+						outputBuffer.addSample(j, startSample, currentSample);
+
+					++startSample;
+
+					tailOff *= 0.99;
+
+					if (tailOff <= 0.005)
+					{
+						clearCurrentNote();
+
+						phaseDelta = 0.0;
+						break;
+					}
+				}
+			}
+			else
+			{
+				for (int i = 0; i < numSamples; ++i)
+				{
+					const float currentSample = (float)sin((i * 2 * double_Pi) / numSamples);
+
+					for (int j = outputBuffer.getNumChannels(); --j >= 0;)
+						outputBuffer.addSample(j, startSample, currentSample);
+
+					++startSample;
+				}
+			}
+		}
     }
     
 private:
