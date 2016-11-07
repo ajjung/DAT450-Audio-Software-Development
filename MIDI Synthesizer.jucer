@@ -60,12 +60,10 @@
         <MODULEPATH id="juce_audio_utils" path="../../../../../../Program Files (x86)/JUCE/modules"/>
       </MODULEPATHS>
     </VS2013>
-    <VS2015 targetFolder="Builds/VisualStudio2015">
+    <CODEBLOCKS_WINDOWS targetFolder="Builds/CodeBlocksWindows">
       <CONFIGURATIONS>
-        <CONFIGURATION name="Debug" winWarningLevel="4" generateManifest="1" winArchitecture="32-bit"
-                       isDebug="1" optimisation="1" targetName="MIDI Synthesizer"/>
-        <CONFIGURATION name="Release" winWarningLevel="4" generateManifest="1" winArchitecture="32-bit"
-                       isDebug="0" optimisation="3" targetName="MIDI Synthesizer"/>
+        <CONFIGURATION name="Debug" isDebug="1" optimisation="1" targetName="MIDI Synthesizer"/>
+        <CONFIGURATION name="Release" isDebug="0" optimisation="3" targetName="MIDI Synthesizer"/>
       </CONFIGURATIONS>
       <MODULEPATHS>
         <MODULEPATH id="juce_video" path="../../../../../../Program Files (x86)/JUCE/modules"/>
@@ -83,7 +81,7 @@
         <MODULEPATH id="juce_audio_devices" path="../../../../../../Program Files (x86)/JUCE/modules"/>
         <MODULEPATH id="juce_audio_basics" path="../../../../../../Program Files (x86)/JUCE/modules"/>
       </MODULEPATHS>
-    </VS2015>
+    </CODEBLOCKS_WINDOWS>
   </EXPORTFORMATS>
   <MODULES>
     <MODULE id="juce_audio_basics" showAllCode="1" useLocalCopy="0"/>
