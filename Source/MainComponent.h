@@ -68,7 +68,7 @@ public:
 	//==============================================================================
 	void paint(Graphics& g) override
 	{
-		g.fillAll(Colours::grey);
+		g.fillAll(Colours::orange);
 	}
 
 	void resized() override
