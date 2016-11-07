@@ -96,43 +96,38 @@ public:
                           int startSample,
                           int numSamples) override
     {
-        if (phaseDelta != 0.0)
-        {
-            if (tailOff > 0.0)
-            {
-				for (int i = 0; i < numSamples; ++i)
-                {
-					const float currentSample = (float)(numSamples / 2 - i) / (numSamples / 2) * (float)tailOff;
-                    
-                    for (int j = outputBuffer.getNumChannels(); --j >= 0;)
-                        outputBuffer.addSample (j, startSample, currentSample);
-						
-						++startSample;
 
-                    tailOff *= 0.99;
-                    
-                    if (tailOff <= 0.005)
-                    {
-                        clearCurrentNote();
-                        
-                        phaseDelta = 0.0;
-                        break;
-                    }
-                }
-            }
-            else
-            {
-				for (int i = 0; i < numSamples; ++i)
+		if (phaseDelta != 0.0)
+		{
+			if (tailOff > 0.0)
+			{
+				while (--numSamples >= 0)
 				{
-					const float currentSample = (float)(numSamples / 2 - i) / (numSamples / 2);
-                    
-                    for (int j = outputBuffer.getNumChannels(); --j >= 0;)
-                        outputBuffer.addSample (j, startSample, currentSample);
-                        
-                        ++startSample;
-                }
-            }
-        }
+					const float currentSample = getNextSample() * (float)tailOff;
+
+					for (int i = outputBuffer.getNumChannels(); --i >= 0;)
+						outputBuffer.addSample(i, startSample, currentSample);
+					++startSample;
+					tailOff *= 0.99;
+					if (tailOff <= 0.005)
+					{
+						clearCurrentNote();
+						phaseDelta = 0.0;
+						break;
+					}
+				}
+			}
+			else
+			{
+				while (--numSamples >= 0)
+				{
+					const float currentSample = getNextSample();
+					for (int i = outputBuffer.getNumChannels(); --i >= 0;)
+						outputBuffer.addSample(i, startSample, currentSample);
+					++startSample;
+				}
+			}
+		}
     }
     
 private:
@@ -146,15 +141,15 @@ private:
         const double f1 = std::sin (phase);
         const double f2 = std::copysign (1.0, f1);
         const double a2 = timbre.getNextValue();
-        const double a1 = 2.0 - a2;
+        const double a1 = 1.0 - a2;
         
-        const float nextSample = float (amplitude * ((a1 * f1) + (a2 * f2)));
+		const float nextSample = (float (-2 * amplitude) / double_Pi) * atan(1/tan((phase * double_Pi) / a1));
         
         const double cyclesPerSample = frequency.getNextValue() / currentSampleRate;
         phaseDelta = 2.0 * double_Pi * cyclesPerSample;
-        phase = std::fmod (phase + phaseDelta, 2.0 * double_Pi);
-        
-        return nextSample;
+        phase = std::fmod (phase + phaseDelta, 2.0 * double_Pi);   
+
+		return nextSample;
     }
     
     //==============================================================================

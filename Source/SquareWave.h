@@ -96,25 +96,21 @@ public:
                           int startSample,
                           int numSamples) override
     {
+
 		if (phaseDelta != 0.0)
 		{
 			if (tailOff > 0.0)
 			{
-				for (int i = 0; i < numSamples; ++i)
+				while (--numSamples >= 0)
 				{
-					const float currentSample = (float)(1 - 2 * (i * 2 / numSamples)) * (float)tailOff;
-
-					for (int j = outputBuffer.getNumChannels(); --j >= 0;)
-						outputBuffer.addSample(j, startSample, currentSample);
-
+					const float currentSample = getNextSample() * (float)tailOff;
+					for (int i = outputBuffer.getNumChannels(); --i >= 0;)
+						outputBuffer.addSample(i, startSample, currentSample);
 					++startSample;
-
 					tailOff *= 0.99;
-
 					if (tailOff <= 0.005)
 					{
 						clearCurrentNote();
-
 						phaseDelta = 0.0;
 						break;
 					}
@@ -122,13 +118,11 @@ public:
 			}
 			else
 			{
-				for (int i = 0; i < numSamples; ++i)
+				while (--numSamples >= 0)
 				{
-					const float currentSample = (float)(1 - 2 * (i * 2 / numSamples));
-
-					for (int j = outputBuffer.getNumChannels(); --j >= 0;)
-						outputBuffer.addSample(j, startSample, currentSample);
-
+					const float currentSample = getNextSample();
+					for (int i = outputBuffer.getNumChannels(); --i >= 0;)
+						outputBuffer.addSample(i, startSample, currentSample);
 					++startSample;
 				}
 			}
@@ -148,7 +142,7 @@ private:
         const double a2 = timbre.getNextValue();
         const double a1 = 1.0 - a2;
         
-        const float nextSample = float (amplitude * ((a2 * f2)));
+        const float nextSample = float (amplitude * (a2 * f2));
         
         const double cyclesPerSample = frequency.getNextValue() / currentSampleRate;
         phaseDelta = 2.0 * double_Pi * cyclesPerSample;

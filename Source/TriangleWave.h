@@ -100,22 +100,16 @@ public:
 		{
 			if (tailOff > 0.0)
 			{
-				for (int i = 0; i < numSamples; ++i)
+				while (--numSamples >= 0)
 				{
-					int imod = i % (numSamples / 2);
-					const float currentSample = (1 - 2 * (i > numSamples / 2)) * std::abs(imod - (imod > (numSamples / 4))*(imod - numSamples / 4) * 2) / ((float)(numSamples / 4)) * (float)tailOff;
-
-					for (int j = outputBuffer.getNumChannels(); --j >= 0;)
-						outputBuffer.addSample(j, startSample, currentSample);
-
+					const float currentSample = getNextSample() * (float)tailOff;
+					for (int i = outputBuffer.getNumChannels(); --i >= 0;)
+						outputBuffer.addSample(i, startSample, currentSample);
 					++startSample;
-
 					tailOff *= 0.99;
-
 					if (tailOff <= 0.005)
 					{
 						clearCurrentNote();
-
 						phaseDelta = 0.0;
 						break;
 					}
@@ -123,14 +117,11 @@ public:
 			}
 			else
 			{
-				for (int i = 0; i < numSamples; ++i)
+				while (--numSamples >= 0)
 				{
-					int imod = i % (numSamples / 2);
-					const float currentSample = (1 - 2 * (i > numSamples / 2)) * std::abs(imod - (imod > (numSamples / 4))*(imod - numSamples / 4) * 2) / ((float)(numSamples / 4)) * (float)tailOff;
-
-					for (int j = outputBuffer.getNumChannels(); --j >= 0;)
-						outputBuffer.addSample(j, startSample, currentSample);
-
+					const float currentSample = getNextSample();
+					for (int i = outputBuffer.getNumChannels(); --i >= 0;)
+						outputBuffer.addSample(i, startSample, currentSample);
 					++startSample;
 				}
 			}
@@ -150,13 +141,13 @@ private:
         const double a2 = timbre.getNextValue();
         const double a1 = 1.0 - a2;
         
-        const float nextSample = float (amplitude * ((a1/ f1)*2));
-        
+		const float nextSample = (float(2 * amplitude) / double_Pi) * asin(sin((phase * double_Pi) * a1));
+
         const double cyclesPerSample = frequency.getNextValue() / currentSampleRate;
         phaseDelta = 2.0 * double_Pi * cyclesPerSample;
         phase = std::fmod (phase + phaseDelta, 2.0 * double_Pi);
-        
-        return nextSample;
+
+		return nextSample;
     }
     
     //==============================================================================
