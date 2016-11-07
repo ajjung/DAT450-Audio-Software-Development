@@ -141,7 +141,7 @@ private:
         const double a2 = timbre.getNextValue();
         const double a1 = 1.0 - a2;
         
-		const float nextSample = (float(2 * amplitude) / double_Pi) * asin(sin((phase * double_Pi) * a1));
+		const float nextSample = (float(2 * amplitude) / double_Pi) * asin(sin((phase)));
 
         const double cyclesPerSample = frequency.getNextValue() / currentSampleRate;
         phaseDelta = 2.0 * double_Pi * cyclesPerSample;
