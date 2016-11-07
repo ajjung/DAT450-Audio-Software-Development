@@ -147,7 +147,7 @@ private:
         
         const double cyclesPerSample = frequency.getNextValue() / currentSampleRate;
         phaseDelta = 2.0 * double_Pi * cyclesPerSample;
-        phase = std::fmod (phase + phaseDelta, 2.0 * double_Pi);   
+        phase = std::fmod (phase + phaseDelta, double_Pi);   
 
 		return nextSample;
     }
