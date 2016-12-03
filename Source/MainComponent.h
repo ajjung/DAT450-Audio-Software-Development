@@ -19,7 +19,8 @@ class MainComponent : public Component,
 	private AudioIODeviceCallback,  // [1]
 	private MidiInputCallback,       // [2]
 	private ComboBox::Listener,
-	private MidiKeyboardStateListener
+	private MidiKeyboardStateListener,
+	private Slider::Listener
 {
 public:
 	//==============================================================================
@@ -36,10 +37,16 @@ public:
 		addAndMakeVisible(audioSetupComp);
 		addAndMakeVisible(waveformList);
 		addAndMakeVisible(waveformListLabel);
+		addAndMakeVisible(filterList);
+		addAndMakeVisible(filterLabel);
 		addAndMakeVisible(keyboardComponent);
+		addAndMakeVisible(knob1);
+		addAndMakeVisible(frequency);
 
 		waveformList.addListener(this);
+		filterList.addListener(this);
 		keyboardState.addListener(this);
+		knob1.addListener(this);
 
 		for (int i = 0; i < 15; ++i)
 		{
@@ -53,16 +60,38 @@ public:
 		waveformList.addItem("Triangle Wave", 3);
 		waveformList.addItem("Sawtooth Wave", 4);
 		waveformList.setSelectedId(1);
+		
+		filterLabel.setText("Filter:", dontSendNotification);
+		filterLabel.attachToComponent(&filterList, true);
+		filterList.addItem("None", 1);
+		filterList.addItem("High Pass", 2);
+		filterList.addItem("Low Pass", 3);
+		filterList.addItem("Band Pass", 4);
+		filterList.addItem("Notch", 5);
+		filterList.setSelectedId(1);
+
+		frequency.setText("Frequency", dontSendNotification);
+		frequency.attachToComponent(&knob1, true);
+		knob1.setRange(10.0, 10000.0);
+		knob1.setTextBoxStyle(Slider::TextBoxBelow, false, 60, 15);
+		knob1.setTextValueSuffix(" hz");
+		knob1.setSliderStyle(Slider::Rotary);
+		knob1.setColour(Slider::rotarySliderFillColourId, Colours::grey);
+		knob1.setColour(Slider::rotarySliderOutlineColourId, Colours::white);
 
 		synth.enableLegacyMode(24);
 		synth.setVoiceStealingEnabled(false);
 		visualiserInstrument.enableLegacyMode(24);
+
+		m_cutOff = knob1.getValue();
 	}
 
 	~MainComponent()
 	{
 		audioDeviceManager.removeMidiInputCallback(String(), this);
 		waveformList.removeListener(this);
+		filterList.removeListener(this);
+		knob1.removeListener(this);
 	}
 
 	//==============================================================================
@@ -75,7 +104,9 @@ public:
 	{
 		Rectangle<int> r(getLocalBounds());
 		audioSetupComp.setBounds(r);
-		waveformList.setBounds(10, 350, 200, 20);
+		waveformList.setBounds(100, 350, 200, 20);
+		filterList.setBounds(1000, 350, 200, 20);
+		knob1.setBounds(1000, 400, 80, 80);
 		keyboardComponent.setBounds(r.removeFromBottom(75));
 	}
 
@@ -97,6 +128,19 @@ public:
 
 		// synthesise the block
 		synth.renderNextBlock(buffer, incomingMidi, 0, numSamples);
+
+		float* channelDataL = buffer.getWritePointer(0);
+		float* channelDataR = buffer.getWritePointer(1);
+		
+		if (filterList.getSelectedId() == 2){
+			filterL.processSamples(channelDataL, numSamples);
+			filterR.processSamples(channelDataR, numSamples);
+		}
+
+		if (filterList.getSelectedId() == 3){
+			filterL.processSamples(channelDataL, numSamples);
+			filterR.processSamples(channelDataR, numSamples);
+		}
 	}
 
 	void audioDeviceAboutToStart(AudioIODevice* device) override
@@ -104,6 +148,13 @@ public:
 		const double sampleRate = device->getCurrentSampleRate();
 		midiCollector.reset(sampleRate);
 		synth.setCurrentPlaybackSampleRate(sampleRate);
+
+		m_cutOff = knob1.getValue();
+
+		if (filterList.getSelectedId() == 2)
+			coefficients.makeHighPass(sampleRate, m_cutOff);
+		if (filterList.getSelectedId() == 3)
+			coefficients.makeLowPass(sampleRate, m_cutOff);
 	}
 
 	void audioDeviceStopped() override
@@ -152,6 +203,14 @@ public:
 		}
 	}
 
+	void sliderValueChanged(Slider *slider)override
+	{
+		if (slider == &knob1)
+		{
+			m_cutOff = knob1.getValue();
+		}
+	}
+
 	void handleNoteOn(MidiKeyboardState*, int midiChannel, int midiNoteNumber, float velocity) override
 	{
 	}
@@ -178,6 +237,12 @@ private:
 	ComboBox waveformList;
 	Label waveformListLabel;
 
+	ComboBox filterList;
+	Label filterLabel;
+	
+	Slider knob1;
+	Label frequency;
+
 	MidiKeyboardState keyboardState;
 	MidiKeyboardComponent keyboardComponent;
 	bool isAddingFromMidiInput;
@@ -185,6 +250,12 @@ private:
 	MPEInstrument visualiserInstrument;
 	MPESynthesiser synth;
 	MidiMessageCollector midiCollector;            // [5]
+
+	IIRCoefficients coefficients;
+	IIRFilter filterL;
+	IIRFilter filterR;
+
+	float m_cutOff;
 
 	JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(MainComponent)
 };
