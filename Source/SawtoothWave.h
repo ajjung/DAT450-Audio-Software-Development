@@ -126,8 +126,10 @@ public:
 						outputBuffer.addSample(i, startSample, currentSample);
 					++startSample;
 				}
-			}
+            }
 		}
+        coeff.makeLowPass(44100, 1000);
+        filter.processSamples(outputBuffer.getWritePointer(0), numSamples);
     }
     
 private:
@@ -150,6 +152,8 @@ private:
         phase = std::fmod (phase + phaseDelta, double_Pi);   
 
 		return nextSample;
+        
+
     }
     
     //==============================================================================
@@ -160,6 +164,9 @@ private:
     const double maxLevel = 1.0f;
     const double maxLevelDb = 31.0f;
     const double smoothingLengthInSeconds = 0.01;
+    IIRCoefficients coeff;
+    IIRFilter filter;
+    double m_sampleRate;
 };
 
 
